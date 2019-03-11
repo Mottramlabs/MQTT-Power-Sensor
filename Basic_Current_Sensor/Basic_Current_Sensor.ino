@@ -8,12 +8,10 @@
 #include <ESP8266WiFi.h>                      // Needed for EPS8266
 #include <WiFiClient.h>                       // WiFi client
 
-//#include "Custom_Settings.h"                // Custom and Wifi Connection and board details.
 // I/O
 #define Status_LED 2                          // D4
 #define Status_LED_On   digitalWrite(Status_LED, HIGH)
 #define Status_LED_Off  digitalWrite(Status_LED, LOW)
-
 
 // Power monitor items
 double Calib = 3.27;
