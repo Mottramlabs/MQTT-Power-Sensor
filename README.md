@@ -5,5 +5,8 @@ A watchdog is also provided that kicks in after a few minutes if it does not rec
 
 I have included the Gerber files for the PCB layout and the source files for Kicad. There maybe issues with the custom libraries I used if so I will unload those lib files also.
 
+20th March 2020
+Included are the case design files. The case was designed using Freecad.
+
 
 
