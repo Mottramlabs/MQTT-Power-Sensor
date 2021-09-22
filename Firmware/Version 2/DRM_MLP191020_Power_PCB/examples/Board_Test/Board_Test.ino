@@ -34,7 +34,7 @@ void setup() {
 void loop() {
 
   // read A/D values and store in value
-  Value = (y_PCB.power_sample();
+  Value = My_PCB.power_sample();
 
   // report results
   delay(200);
