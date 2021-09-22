@@ -2,7 +2,7 @@
     A simple library demo thatat reads an MLP191020 - 1-channel CT sesnor boards
     Based On:   EmonLib https://github.com/openenergymonitor/EmonLib
     Auther:     David Mottram
-    Updated:    4th September 2021
+    Updated:    22nd September 2021
 */
 
 #include <ESP8266WiFi.h>              // needed for EPS8266
@@ -13,6 +13,14 @@
 
 // library for the MLP191020 PCB
 #define Cal_value 1500
+
+// values for reporting
+#define Voltage 230
+#define CT_Cal 17.619
+#define Min_Usable_Value 0.3
+#define Reporting_Delay 500
+
+// https://github.com/Mottramlabs/MQTT-Power-Sensor
 #include <MLP191020.h>
 // make an instance of MLP191020
 MLP191020 My_PCB(Cal_value);
@@ -36,20 +44,23 @@ void loop() {
   // read A/D values and store in value
   Value = My_PCB.power_sample();
 
-  // report results
-  delay(200);
+  // calc Amps, zero the value if below usable value
+  float Amps = Value / CT_Cal;
 
-  // print the values
-  digitalWrite(Network_LED, HIGH);
+  // if below min usable value then zero
+  if (Value < Min_Usable_Value) {
+    Amps = 0;
+  } // end if
 
-  String Report = String(Value) + "    ";
-  Serial.println(Report);
+  int Watts = Amps * Voltage;
 
-  // only used to make the LED flash visable
-  delay(10);
+  // display report
+  Serial.print("Value: "); Serial.print(Value); Serial.print(" - Amps: "); Serial.print(Amps); Serial.print("A - Watts: "); Serial.print(Watts); Serial.print("W");
+  Serial.println("");
 
-  digitalWrite(Network_LED, LOW);
+  // flash the LED
+  digitalWrite(Network_LED, HIGH); delay(10); digitalWrite(Network_LED, LOW);
 
-  delay(1000);
+  delay(Reporting_Delay);
 
 } // end of loop
